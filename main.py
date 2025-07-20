@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mcp = FastMCP("orchestra")
+mcp = FastMCP("orchestra",host="0.0.0.0")
 
 USER_AGENT = "orchestra-app/1.0"
 SERPER_URL ="https://google.serper.dev/search"
@@ -84,4 +84,4 @@ def main():
 
 
 if __name__ == "__main__":
-    mcp.run(transport="stdio")
+    mcp.run(transport="streamable-http")
