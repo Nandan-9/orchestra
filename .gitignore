@@ -1,34 +1,12 @@
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-
-# TypeScript
-dist/
+# Python-generated files
+__pycache__/
+*.py[oc]
 build/
-*.tsbuildinfo
+dist/
+wheels/
+*.egg-info
 
-# Environment
+# Virtual environments
+.venv
+
 .env
-.env.*
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-logs/
-*.log
-
-# IDEs and editors
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Misc
-coverage/
-.next/
-.cache/
