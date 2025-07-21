@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mcp = FastMCP(name="web search")
+mcp = FastMCP(name="web search", stateless_http=True)
 
 SERPER_URL ="https://google.serper.dev/search"
 

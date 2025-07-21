@@ -2,6 +2,7 @@ import contextlib
 from fastapi import FastAPI
 from tools.tools_echo import mcp as echo_mcp
 from tools.tools_math import (mcp as math_mcp)
+from tools.tools_search import mcp as search_mcp
 
 import os
 
@@ -12,12 +13,16 @@ async def lifespan(app: FastAPI):
     async with contextlib.AsyncExitStack() as stack:
         await stack.enter_async_context(echo_mcp.session_manager.run())
         await stack.enter_async_context(math_mcp.session_manager.run())
+        await stack.enter_async_context(search_mcp.session_manager.run())
+
         yield
 
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/echo", echo_mcp.streamable_http_app())
 app.mount("/math", math_mcp.streamable_http_app())
+app.mount("/web-search", search_mcp.streamable_http_app())
+
 
 PORT = os.environ.get("PORT", 10000)
 
