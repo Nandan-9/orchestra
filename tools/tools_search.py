@@ -69,9 +69,9 @@ async def get_doc(query:str,library:str):
     query = f"site:{docs_urls[library]} {query}"
     results = await search_web(query)
 
+
     if len(results["organic"]) == 0:
         return "No results found"
-
     text = ""
     for result in results["organic"]:
         text += await fetch_url(result["link"])
