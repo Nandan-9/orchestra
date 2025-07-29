@@ -15,18 +15,18 @@ client = OpenAI(
 )
 
 # Create chat completion
-completion = client.chat.completions.create(
-    model="deepseek/deepseek-chat",
-    messages=[
-        {"role": "user",
-         "content":
-             "Create a Manim animation that shows a sine wave growing from a unit circle."
-         }
-    ]
-)
 
-
+def chat_completion(chat):
+    completion = client.chat.completions.create(
+        model="deepseek/deepseek-chat",
+        messages=[
+            {"role": "user",
+             "content":
+                 chat
+             }
+        ]
+    )
+    return completion.choices[0].message.content
 
 
 # Print the response
-print(completion.choices[0].message.content)
