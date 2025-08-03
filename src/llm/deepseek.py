@@ -7,12 +7,12 @@ load_dotenv()
 
 # Get the API key from the environment
 api_key = os.getenv("OPENROUTER_KEY")
+print(api_key)
 # Initialize OpenAI client
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=api_key,
 )
-
 # Create chat completion
 
 def chat_completion(chat):
