@@ -1,11 +1,11 @@
 from http.client import responses
-from typing import Union
 
-from fastapi import FastAPI, Body, APIRouter
+from fastapi import FastAPI, APIRouter
 from openai import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.deepseek import chat_completion
+from src.rag.manim_prompter import manim_prompter
+from src.rag.types import  input_prompt
 
 app = FastAPI()
 router = APIRouter()
@@ -38,7 +38,7 @@ def create_user(user: UserCreate):
     return {"user_id": 1, "name": user.name}
 
 @app.post("/chat/")
-def create_user(chat: ChatMessage):
-    print(chat.content)
-    response = chat_completion(chat.content)
+def create_user(chat: input_prompt):
+    print(chat.prompt)
+    response = manim_prompter(chat.prompt)
     return {"chat": response}
