@@ -1,24 +1,23 @@
+from http.client import responses
 from typing import Union
 
-from fastapi import FastAPI,Body
+from fastapi import FastAPI, Body, APIRouter
 from openai import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.deepseek import chat_completion
 
 app = FastAPI()
+router = APIRouter()
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",                      # for local development
-        "https://your-vercel-deployment.vercel.app"  # for production frontend
-    ],  # Allow frontend
+    allow_origins=["*"],  # Allow frontend
     allow_credentials=True,
-    allow_methods=["*"],  # GET, POST, etc.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 class User(BaseModel):
     name: str
@@ -38,3 +37,8 @@ def create_user(user: UserCreate):
     print(user.name)
     return {"user_id": 1, "name": user.name}
 
+@app.post("/chat/")
+def create_user(chat: ChatMessage):
+    print(chat.content)
+    response = chat_completion(chat.content)
+    return {"chat": response}
