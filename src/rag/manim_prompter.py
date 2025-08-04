@@ -32,4 +32,3 @@ def manim_prompter(prompt: str):
     response = chat_completion(prompt_template)
     return response
 
-manim_prompter("visualize sine wave")
