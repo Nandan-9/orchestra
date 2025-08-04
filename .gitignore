@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# Poetry / pipenv / pip
+poetry.lock
+Pipfile.lock
+uv.lock
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# VSCode and other IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test outputs
+htmlcov/
+*.cover
+coverage.xml
+*.log
+
+# Manim cache and temp files
+media/
+*.mov
+*.mp4
+*.json
+*.svg
+*.png
+*.gif
+
+# Misc
+*.tmp
+*.bak
+
+# Ignore test cache
+.pytest_cache/
+
+# Ignore compiled Cython or C extensions
+*.c
+*.cpp
+*.pyd
+*.pyo
+*.pdb
+*.dll
+*.prof
