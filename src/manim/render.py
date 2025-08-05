@@ -20,7 +20,7 @@ def save_code(code: str, scene_id: str):
 
 def render_manim_scene(file_path: str, scene_name: str, output_name: str):
     abs_path = os.path.abspath(file_path)
-    container_path = "/app/" + os.path.basename(file_path)
+    container_path = "/manim_code/" + os.path.basename(file_path)
 
     subprocess.run([
         "docker", "run", "--rm",
