@@ -1,32 +1,7 @@
-from openai import OpenAI
-from dotenv import load_dotenv
-import os
+from src.manim.code_extractor import extractor
 
-# Load environment variables
-load_dotenv()
+llm = {
+  "manim": "```python\nfrom manim import *\nimport numpy as np\n\nclass HydrogenBond(Scene):\n    def construct(self):\n        # Create axes\n        axes = Axes(\n            x_range=[0, 2*np.pi, np.pi/2],\n            y_range=[-1.5, 1.5, 0.5],\n            axis_config={\"color\": BLUE},\n            x_axis_config={\"include_tip\": True},\n            y_axis_config={\"include_tip\": True},\n        )\n        \n        # Add axis labels\n        axes_labels = axes.get_axis_labels(\n            x_label=\"\\\\alpha\", y_label=\"Potential\"\n        )\n        \n        # Mark key points on x-axis\n        points = {\n            np.pi/2: Tex(r\"$\\\\frac{\\\\pi}{2}$\"),\n            np.pi: Tex(r\"$\\\\pi$\"),\n            3*np.pi/2: Tex(r\"$\\\\frac{3\pi}{2}$\"),\n            2*np.pi: Tex(r\"$2\\\\pi$\")\n        }\n        \n        for x, label in points.items():\n            label.next_to(axes.c2p(x, 0), DOWN)\n            \n        # Sine curve\n        sine = axes.plot(lambda x: np.sin(x), color=YELLOW)\n        \n        # Animate drawing\n        tracker = ValueTracker(0)\n        sine_partial = always_redraw(\n            lambda: axes.plot(\n                lambda x: np.sin(x),\n                x_range=[0, tracker.get_value()],\n                color=YELLOW\n            )\n        )\n        \n        # Red tracking dot\n        dot = always_redraw(lambda: Dot(\n            point=axes.c2p(\n                tracker.get_value(), \n                np.sin(tracker.get_value())\n            ),\n            color=RED\n        ))\n        \n        # Animation group\n        all_points = VGroup(*[label for label in points.values()])\n        self.play(Create(axes))\n        self.play(Write(axes_labels), Write(all_points))\n        self.add(sine_partial, dot)\n        self.play(\n            tracker.animate.set_value(2*np.pi),\n            rate_func=linear,\n            run_time=8\n        )\n        \n        # Final green dot and label\n        final_dot = Dot(point=axes.c2p(2*np.pi, 0), color=GREEN)\n        final_label = MathTex(r\"(2\\pi, 0)\", color=GREEN)\\\n            .next_to(final_dot, DOWN)\n            \n        self.play(\n            FadeIn(final_dot, shift=DOWN),\n            Write(final_label)\n        )\n        self.wait(2)\n```\n"
+}
 
-# Get the API key from the environment
-api_key = os.getenv("OPENROUTER_KEY")
-print(f"API Key loaded: {api_key[:20]}..." if api_key else "No API key found")
-
-# Initialize OpenAI client
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=api_key,
-)
-
-# Test the API call
-try:
-    completion = client.chat.completions.create(
-        model="deepseek/deepseek-r1-0528:free",
-        messages=[
-            {
-                "role": "user",
-                "content": "Hello",
-            }
-        ]
-    )
-    print("Success!")
-    print(completion.choices[0].message.content)
-except Exception as e:
-    print(f"Error: {e}")
+extractor(llm)
