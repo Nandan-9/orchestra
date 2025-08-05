@@ -21,9 +21,8 @@ def manim_prompter(prompt: str):
         Do not include markdown, explanations, or any extra text.
         The output must be like:
 
-    ```json
     {{
-      "manim": "```python\\n# your manim code here\\n```"
+      "manim": "```python\\n# your manim code here\\n"
     }}
 
     here is the user prompt = {prompt}
