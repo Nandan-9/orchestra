@@ -1,11 +1,14 @@
 from http.client import responses
-
+from fastapi import BackgroundTasks
 from fastapi import FastAPI, APIRouter
 from openai import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.manim.render import save_code, render_manim_scene
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
+
+import uuid
 
 app = FastAPI()
 router = APIRouter()
@@ -38,7 +41,20 @@ def create_user(user: UserCreate):
     return {"user_id": 1, "name": user.name}
 
 @app.post("/chat/")
-def create_user(chat: input_prompt):
+async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks):
     print(chat.prompt)
-    response = manim_prompter(chat.prompt)
-    return {"chat": response}
+
+    # 1. Get Manim code from LLM
+    responses = manim_prompter(chat.prompt)
+    # code =
+    #
+    # # 2. Save it to a .py file
+    # scene_id = str(uuid.uuid4())[:8]
+    # file_path, scene_name = save_code(code, scene_id)
+    #
+    # # 3. Render in background
+    # background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
+    #
+    # # 4. Return the video path
+    # return {"video_url": f"/videos/{scene_id}.mp4"}
+    return {"responses": responses}
