@@ -4,6 +4,7 @@ from fastapi import FastAPI, APIRouter
 from openai import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.manim.code_extractor import extractor
 from src.manim.render import save_code, render_manim_scene
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
@@ -46,15 +47,14 @@ async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks)
 
     # 1. Get Manim code from LLM
     responses = manim_prompter(chat.prompt)
-    # code =
-    #
+    code =  extractor(responses)
     # # 2. Save it to a .py file
-    # scene_id = str(uuid.uuid4())[:8]
-    # file_path, scene_name = save_code(code, scene_id)
+    scene_id = str(uuid.uuid4())[:8]
+    file_path, scene_name = save_code(code, scene_id)
     #
     # # 3. Render in background
-    # background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
+    background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
     #
     # # 4. Return the video path
-    # return {"video_url": f"/videos/{scene_id}.mp4"}
-    return {"responses": responses}
+    return {"video_url": f"/videos/{scene_id}.mp4"}
+    # return {"responses":file_path}
