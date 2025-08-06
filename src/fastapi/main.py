@@ -56,5 +56,5 @@ async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks)
     background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
     #
     # # 4. Return the video path
-    return {"video_url": f"/videos/{scene_id}.mp4"}
+    return {"responses": code}
     # return {"responses":file_path}

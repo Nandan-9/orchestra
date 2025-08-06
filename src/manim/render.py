@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+import getpass
 
 
 def save_code(code: str, scene_id: str):
@@ -20,11 +21,18 @@ def save_code(code: str, scene_id: str):
 
 def render_manim_scene(file_path: str, scene_name: str, output_name: str):
     abs_path = os.path.abspath(file_path)
-    container_path = "/manim_code/" + os.path.basename(file_path)
+    folder_path = os.path.dirname(abs_path)
+    file_name = os.path.basename(file_path)
+
+    os.chmod(abs_path, 0o644)
+
+    # Optional: add current user id for Docker
+    user_id = os.getuid()
 
     subprocess.run([
         "docker", "run", "--rm",
-        "-v", f"{os.path.dirname(abs_path)}:/app",
+        "-u", str(user_id),  # Run Docker with your user ID
+        "-v", f"{folder_path}:/app:Z",
         "manimcommunity/manim:stable",
-        "manim", "-pql", container_path, scene_name, "-o", output_name
+        "manim", "-pql", f"/app/{file_name}", scene_name, "-o", output_name
     ])
