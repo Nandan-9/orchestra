@@ -5,6 +5,7 @@ from openai import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.manim.code_extractor import extractor
+from src.manim.code_validation import validate_python_code
 from src.manim.render import save_code, render_manim_scene
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
@@ -48,13 +49,19 @@ async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks)
     # 1. Get Manim code from LLM
     responses = manim_prompter(chat.prompt)
     code =  extractor(responses)
+    if validate_python_code(code):
+        scene_id = str(uuid.uuid4())[:8]
+        file_path, scene_name = save_code(code, scene_id)
+        background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
+        return {"responses": file_path}
+    else :
+        return {"responses": "Failed"}
+
+
     # # 2. Save it to a .py file
-    scene_id = str(uuid.uuid4())[:8]
-    file_path, scene_name = save_code(code, scene_id)
-    #
+
+
     # # 3. Render in background
-    background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
     #
     # # 4. Return the video path
-    return {"responses": code}
-    # return {"responses":file_path}
+    return {"responses": code }
