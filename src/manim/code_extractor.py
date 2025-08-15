@@ -27,7 +27,7 @@ def extractor(json_response: str) -> str:
     if code_block.startswith("```python"):
         code = code_block[9:-3].strip()
     elif code_block.startswith("```"):
-        code = code_block[3:-3].strip()
+        code = code_block[3:-4].strip()
     else:
         code = code_block.strip()
 
