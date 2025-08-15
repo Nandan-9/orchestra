@@ -17,6 +17,7 @@ client = OpenAI(
 def chat_completion(chat):
     completion = client.chat.completions.create(
         model="deepseek/deepseek-r1-0528:free",
+        temperature=0,
         messages=[
             {
                 "role": "user",
