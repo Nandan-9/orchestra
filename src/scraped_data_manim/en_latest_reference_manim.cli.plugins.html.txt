@@ -1,0 +1,4 @@
+Source URL: https://docs.manim.community/en/latest/reference/manim.cli.plugins.html
+
+plugins
+¶

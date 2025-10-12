@@ -20,6 +20,8 @@ build/
 dist/
 *.egg-info/
 
+manm_code/
+
 # VSCode and other IDEs
 .vscode/
 .idea/

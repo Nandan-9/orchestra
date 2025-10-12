@@ -3,6 +3,8 @@ import re
 import subprocess
 import getpass
 
+from src.manim.uploader import upload_to_storage
+
 
 def save_code(code: str, scene_id: str):
     os.makedirs("manim_code", exist_ok=True)
@@ -43,11 +45,17 @@ def render_manim_scene(file_path: str, scene_name: str, output_name: str):
         scene_name,
         "--media_dir", f"/app/output/{scene_name}",  # Folder named after scene
         "-o", scene_name  # File name = scene name
-    ])
+    ],check=True)
 
     video_path = os.path.join(
         folder_path,
-        "output", scene_name, "videos", scene_name, "480p15", f"{scene_name}.mp4"
+        "output", scene_name, "videos", str(user_id), "480p15", f"{scene_name}.mp4"
     )
 
+    upload_url = upload_to_storage(scene_name, video_path)
+    if upload_url:
+        print("Upload successful : ", upload_url)
+
     print(f"Video saved at: {video_path}")
+    return  upload_url
+

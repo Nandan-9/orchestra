@@ -9,9 +9,9 @@ from src.manim.code_validation import validate_python_code
 from src.manim.render import save_code, render_manim_scene
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
-
+import requests
 import uuid
-
+url = "http://127.0.0.1:8001/render"
 app = FastAPI()
 router = APIRouter()
 
@@ -46,22 +46,24 @@ def create_user(user: UserCreate):
 async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks):
     print(chat.prompt)
 
+
+
     # 1. Get Manim code from LLM
     responses = manim_prompter(chat.prompt)
     code =  extractor(responses)
-    if validate_python_code(code):
-        scene_id = str(uuid.uuid4())[:8]
-        file_path, scene_name = save_code(code, scene_id)
-        background_tasks.add_task(render_manim_scene, file_path, scene_name, f"{scene_id}.mp4")
-        return {"responses": file_path}
-    else :
-        return {"responses": "Failed"}
-
+    payload = {"code": code}
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:
+        data = response.json()
+        print("Video URL:", data["url"])
+        return {"url": data["url"]}
+    else:
+        print("Error:", response.status_code, response.text)
+        return {"error": response.status_code}
 
     # # 2. Save it to a .py file
 
 
     # # 3. Render in background
     #
-    # # 4. Return the video path
-    return {"responses": code }
+    # # 4. Return the video pat63h

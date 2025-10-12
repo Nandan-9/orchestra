@@ -1,0 +1,8 @@
+Source URL: https://docs.manim.community/en/latest/reference/manim.mobject.frame.html
+
+frame
+¶
+Special rectangles.
+Classes
+FullScreenRectangle
+ScreenRectangle

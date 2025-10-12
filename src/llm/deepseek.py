@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 # Get the API key from the environment
-api_key = os.getenv("OPENROUTER_KEY")
+api_key = os.getenv("OPENROUTER_API_KEY")
 # Initialize OpenAI client# print(api_key)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -16,7 +16,7 @@ client = OpenAI(
 
 def chat_completion(chat):
     completion = client.chat.completions.create(
-        model="deepseek/deepseek-r1-0528:free",
+        model="x-ai/grok-4-fast:free",
         temperature=0,
         messages=[
             {
