@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.manim.code_extractor import extractor
 from src.manim.code_validation import validate_python_code
-from src.manim.render import save_code, render_manim_scene
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
 import requests
