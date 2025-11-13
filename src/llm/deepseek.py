@@ -16,7 +16,7 @@ client = OpenAI(
 
 def chat_completion(chat):
     completion = client.chat.completions.create(
-        model="x-ai/grok-4-fast:free",
+    model="google/gemma-3-4b-it:free",
         temperature=0,
         messages=[
             {

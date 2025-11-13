@@ -1,5 +1,5 @@
 # main.py
-from src.test2 import get_rag_chain
+from test2 import get_rag_chain
 
 retrieval_chain = get_rag_chain()
 

@@ -8,6 +8,7 @@ from src.manim.code_extractor import extractor
 from src.manim.code_validation import validate_python_code
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
+
 import requests
 import uuid
 url = "http://127.0.0.1:8001/render"
@@ -52,6 +53,7 @@ async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks)
     code =  extractor(responses)
     payload = {"code": code}
     response = requests.post(url, json=payload)
+    print("code sent")
     if response.status_code == 200:
         data = response.json()
         print("Video URL:", data["url"])

@@ -1,6 +1,7 @@
 from src.llm.deepseek import chat_completion
 from src.rag.types import input_prompt
 
+retrieval_chain = 
 
 def manim_prompter(prompt: str):
     prompt_template = f"""
@@ -25,6 +26,6 @@ def manim_prompter(prompt: str):
     Final rule: Return ONLY the JSON object described at the start.
     """
 
-    response = chat_completion(prompt_template)
+    response =  ch
     return response
 
