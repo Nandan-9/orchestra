@@ -1,26 +1,18 @@
 import os
-from typing import Optional
-
 from dotenv import load_dotenv
-from langchain_core.utils.utils import secret_from_env
 from langchain_openai import ChatOpenAI
-from pydantic import Field, SecretStr
 
 load_dotenv()
 
 class ChatOpenRouter(ChatOpenAI):
-    openai_api_key: Optional[SecretStr] = Field(
-        alias="api_key", default_factory=secret_from_env("OPENROUTER_API_KEY", default=None)
-    )
-    @property
-    def lc_secrets(self) -> dict[str, str]:
-        return {"openai_api_key": "OPENROUTER_API_KEY"}
+    def __init__(self, **kwargs):
+        super().__init__(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url="https://openrouter.ai/api/v1",
+            **kwargs
+        )
 
-    def __init__(self,
-                 openai_api_key: Optional[str] = None,
-                 **kwargs):
-        openai_api_key = openai_api_key or os.environ.get("OPENROUTER_API_KEY")
-        super().__init__(base_url="https://openrouter.ai/api/v1", openai_api_key=openai_api_key, **kwargs)
-
-
-openrouter_model = ChatOpenRouter(model_name="x-ai/grok-4-fast:free")
+openrouter_model = ChatOpenRouter(
+    model="arcee-ai/trinity-large-preview:free",
+    temperature=0
+)

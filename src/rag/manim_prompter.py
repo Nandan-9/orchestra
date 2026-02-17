@@ -1,31 +1,53 @@
+from src.rag.lang_chain import get_rag_chain
 from src.llm.deepseek import chat_completion
 from src.rag.types import input_prompt
 
-retrieval_chain = 
+
+
+
+retrieval_chain = get_rag_chain()
 
 def manim_prompter(prompt: str):
     prompt_template = f"""
-    You must output ONLY a valid JSON object in exactly this format:
+You are an Expert Manim Community Edition (ManimCE) Animation Engineer.
 
-    {{
-      "manim": "# full runnable Python code using ManimCE here"
-    }}
+You MUST strictly follow these rules:
 
-    Do NOT include:
-    - Markdown code fences
-    - Comments or explanations
-    - Extra keys
-    - Any text before or after the JSON
+OUTPUT FORMAT:
+Return ONLY a valid JSON object in EXACTLY this format:
 
-    Your role:
-    You are an expert Manim animation engineer.
-    Write a complete Python script using Manim (Community Edition) that can be run directly to render the animation.
+{{
+  "manim": "full runnable Python code using ManimCE"
+}}
 
-    User request: {prompt}
+STRICT CONSTRAINTS:
+- No markdown
+- No comments
+- No explanations
+- No extra keys
+- No text before or after JSON
+- Code must run directly with ManimCE
+- Import using: from manim import *
+- Define exactly ONE Scene class
+- Do NOT invent APIs
+- Use only valid ManimCE classes and methods
+- Ensure syntactically valid Python
+- Ensure no undefined variables
+- Ensure animations use valid methods like Create, FadeIn, Write, Transform, etc.
+- Include wait() where appropriate
 
-    Final rule: Return ONLY the JSON object described at the start.
-    """
+GROUNDING RULE:
+Use ONLY APIs and syntax consistent with official ManimCE documentation.
 
-    response =  ch
+User Request:
+{prompt}
+
+Final Rule:
+Return ONLY the JSON object.
+"""
+
+    response = retrieval_chain.invoke({
+        "input": prompt_template
+    })["answer"]
+
     return response
-

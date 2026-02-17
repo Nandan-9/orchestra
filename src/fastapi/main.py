@@ -8,6 +8,7 @@ from src.manim.code_extractor import extractor
 from src.manim.code_validation import validate_python_code
 from src.rag.manim_prompter import manim_prompter
 from src.rag.types import  input_prompt
+from src.Knowledge_graph.prompter import main_prompter
 
 import requests
 import uuid
@@ -37,21 +38,20 @@ class ChatMessage(BaseModel):
 class UserCreate(BaseModel):
     name: str
 
-@app.post("/create-user/")
-def create_user(user: UserCreate):
-    print(user.name)
-    return {"user_id": 1, "name": user.name}
+# @app.post("/create-user/")
+# def create_user(user: UserCreate):
+#     print(user.name)
+#     return {"user_id": 1, "name": user.name}
 
 @app.post("/chat/")
 async def generate_prompt(chat: input_prompt, background_tasks: BackgroundTasks):
     print(chat.prompt)
-
-
-
+    
     # 1. Get Manim code from LLM
-    responses = manim_prompter(chat.prompt)
-    code =  extractor(responses)
-    payload = {"code": code}
+    main_response = main_prompter(chat.prompt)
+    responses = manim_prompter(main_response)
+    print(responses)
+    payload = {"code": responses}
     response = requests.post(url, json=payload)
     print("code sent")
     if response.status_code == 200:

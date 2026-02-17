@@ -16,7 +16,7 @@ client = OpenAI(
 
 def chat_completion(chat):
     completion = client.chat.completions.create(
-    model="google/gemma-3-4b-it:free",
+    model="openrouter/aurora-alpha",
         temperature=0,
         messages=[
             {
