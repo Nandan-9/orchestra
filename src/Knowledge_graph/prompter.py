@@ -138,18 +138,18 @@ Use ONLY information from the Context Graph.
 
 
 
-def main_prompter(chat):
-    # question = "What is matrix Multiplication? Can you give me an example"
-    # question = question
-    answer = ask_kg_rag(chat)
-    speech = generate_voice_over(answer)
-    manim_script = video_generate(answer)
-    print("Question : ",chat)
-    print(f"\nAI Answer:\n{answer}\n" + "-"*40)
-    print("nations speech")
-    print(speech)
-    print(text_to_speech(speech))
-    return manim_script
+# def main_prompter(chat):
+#     # question = "What is matrix Multiplication? Can you give me an example"
+#     # question = question
+#     answer = ask_kg_rag(chat)
+#     speech = generate_voice_over(answer)
+#     manim_script = video_generate(answer)
+#     print("Question : ",chat)
+#     print(f"\nAI Answer:\n{answer}\n" + "-"*40)
+#     print("nations speech")
+#     print(speech)
+#     print(text_to_speech(speech))
+#     return manim_script
 
 
 
@@ -157,11 +157,11 @@ def main_prompter(chat):
 question = "What is matrix Multiplication? Can you give me an example"
 
 answer = ask_kg_rag(question)
+print("Question : ",question)
+print(f"\nAI Answer:\n{answer}\n" + "-"*40)
 speech = generate_voice_over(answer)
 voice_path = text_to_speech(speech)
 manim_script = video_generate(answer)
-print("Question : ",question)
-print(f"\nAI Answer:\n{answer}\n" + "-"*40)
 print("nations speech")
 print(speech)
 print()

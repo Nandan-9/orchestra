@@ -3,10 +3,6 @@
 
 def build_manim_prompt(plan):
 
-    concept = plan["concept"]
-    A = plan["example"]["A"]
-    B = plan["example"]["B"]
-    visual_plan = plan["visual_plan"]
 
     prompt_lines = []
 
@@ -14,19 +10,12 @@ def build_manim_prompt(plan):
     prompt_lines.append("Generate executable Manim CE Python code.")
     prompt_lines.append("Use ONLY valid Manim syntax.")
     prompt_lines.append("")
-    prompt_lines.append(f"Concept: {concept}")
-    prompt_lines.append(f"Matrix A: {A}")
-    prompt_lines.append(f"Matrix B: {B}")
+    prompt_lines.append(f"Concept: {plan}")
+
     prompt_lines.append("")
     prompt_lines.append("Follow this exact animation plan:")
 
-    for step in visual_plan:
-        prompt_lines.append(
-            f"Step {step['step']}: "
-            f"{step['action']} with parameters {step['parameters']}"
-        )
-
-    prompt_lines.append("")
+    prompt_lines.append("In the concept there is Visual_plan it is the plan on how to animate the video")
     prompt_lines.append("Only output valid Python Manim code. No markdown.")
 
     return "\n".join(prompt_lines)

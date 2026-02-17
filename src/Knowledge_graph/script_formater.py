@@ -94,49 +94,11 @@ Text to convert:
 
 
 
-def build_narration(plan):
 
-    concept = plan["concept"]
-    definition = plan["definition"]
-    A = plan["example"]["A"]
-    B = plan["example"]["B"]
-
-    script_lines = []
-
-    script_lines.append(f"Let's understand {concept}.")
-    script_lines.append(definition)
-    script_lines.append(f"Consider matrix A as {A} and matrix B as {B}.")
-    script_lines.append("Now we compute each element step by step.")
-
-    for step in plan["visual_plan"]:
-
-        action = step["action"]
-        params = step["parameters"]
-
-        if action == "check_dimension_match":
-            script_lines.append(
-                f"We check that the number of columns in A is {params['columns_A']} "
-                f"and rows in B is {params['rows_B']}. Multiplication is possible."
-            )
-
-        elif action == "show_dot_product_calculation":
-            script_lines.append(
-                f"Now we compute: {params['calculation']}."
-            )
-
-        elif action == "display_result_matrix":
-            script_lines.append(
-                f"The final result matrix is {params['result_matrix']}."
-            )
-
-    script_lines.append("These are the prerequisites you should know before this topic.")
-    for prereq in plan["prerequisites"]:
-        script_lines.append(prereq)
-
-    return " ".join(script_lines)
 
 def generate_voice_over(explanation_text: str):
-    narration = build_narration(explanation_text)
+    narration = format_for_speech(explanation_text)
+    narration = add_narration_pauses(narration)
     speech = create_naration(narration)
 
     return speech
